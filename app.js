@@ -1,17 +1,22 @@
-const EventEmitter = require('events');
+const { rmSync } = require("fs");
+const http = require('http');
+const { removeListener } = require("process");
 
-//require logger modul and we get a Class Logger
-const Logger = require('./logger');
-//Create Object - we use an instance of a class 
-const logger = new Logger();
 
-//Register a listener on Logger Object - after creating a logger
-//not on 
-// emitter.on('messageLogged)... 
-// - but on logger
-logger.on('messageLogged', (arg) => {
-    console.log('Listener called', arg);
+//this server could be very complicated with a lot ifs with various urls
+//we will use express in the future
+const server = http.createServer((req, res) => {
+    if (req.url === '/') {
+        res.write('Hello World');
+        res.end();
+    }
+
+    if (req.url === '/api/courses') {
+        res.write(JSON.stringify([1, 2, 3]))
+    }
+    res.end();
 });
 
-logger.log('message');
+server.listen(8080);
 
+console.log('Listening on port 8080...');
