@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send('hello212asdfaf     !')
+app.use(express.json());
+
 const courses = [
     { id: 1, name: 'course 1 ' },
     { id: 2, name: 'course 2 ' },
@@ -10,11 +10,11 @@ const courses = [
 ];
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
-});
+    res.send('HELLO WORLD!!');
+})
 
 app.get('/api/courses', (req, res) => {
-    res.send([1, 2, 3]);
+    res.send(courses);
 })
 
 app.get('/api/courses/:id', (req, res) => {
@@ -27,27 +27,20 @@ app.get('/api/posts/:year/:month', (req, res) => {
     res.send(req.params)
 })
 
-//multiple parameters results with "?" mark 
-// query string parameter:?sortBy=name
-// this is optional 
-// http://localhost:3000/api/posts/2022/12?sortBy=mame
-// result is : 
-// {"sortBy":"name"}
-app.get('/api/posts2/:year/:month', (req, res) => {
-    res.send(req.query)
-// app.get('/api/courses', (req, res) => {
-//     res.send([1, 2, 3]);
-// })
-
-app.get('/api/courses', (req, res) => {
-    res.send(courses);
-})
-
 app.get('/api/courses/:id', (req, res) => {
     const course = courses.find(c => c.id === parseInt(req.params.id))
     if (!course) res.status(404).send("the course with the given id was not found")
     res.send(course);
 })
+
+app.post('/api/courses', (req, res) => {
+    const course = {
+        id: courses.length + 1, 
+        name: req.body.name
+    };
+    courses.push(course);
+    res.send(course);
+});
 
 //PORT
 const port = process.env.PORT || 3000;
