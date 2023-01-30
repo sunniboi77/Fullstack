@@ -1,12 +1,19 @@
+const Joi = require('joi');
+//import log function from logger.js
+const logger = require('./logger')
 const express = require('express');
 const app = express();
-const Joi = require('joi');
-const { result } = require("underscore");
+
 
 //this middleware returns a function
 //read the request 
 //sets req.body
 app.use(express.json());
+
+app.use(logger);
+
+const { result } = require("underscore");
+
 
 //middleware called in sequence
 //each middleware to separate function
