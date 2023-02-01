@@ -1,16 +1,33 @@
 const Joi = require('joi');
+const morgan = require('morgan')
+const helmet = require('helmet');
 //import log function from logger.js
 const logger = require('./logger')
 const express = require('express');
 const app = express();
 
 
+// This is how we get the environment used 
+console.log(`NODE_ENV:${process.env.NODE_ENV}`);
+console.log(`app: ${app.get('env')}`);
+
 //this middleware returns a function
 //read the request 
 //sets req.body
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // key=value&key=value
+app.use(express.static('public'))
+app.use(express.static('public2'))
+app.use(helmet());
+
+if (app.get('env') === 'development') {
+    app.use(morgan('tiny'))
+    console.log('Morgan enabled');
+}
+
 
 app.use(logger);
+app.use(morgan('tiny'));
 
 const { result } = require("underscore");
 
@@ -68,7 +85,9 @@ app.post('/api/courses', (req, res) => {
         id: courses.length + 1,
         name: req.body.name
     };
+
     courses.push(course);
+    // res.send(course)
     res.send({ error, course });
 });
 
@@ -121,4 +140,3 @@ function validateCourse(course) {
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`listening on port ${port}...`));
 
- 
