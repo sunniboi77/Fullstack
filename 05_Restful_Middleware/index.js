@@ -1,15 +1,23 @@
 const Joi = require('joi');
-const morgan = require('morgan')
+const startupDebugger = require('debug')('app:startup');
+const dbDebugger = require('debug')('app:db');
+const morgan = require('morgan');
 const helmet = require('helmet');
+
+const config = require('config');
 //import log function from logger.js
 const logger = require('./logger')
 const express = require('express');
 const app = express();
 
+//configuration 
+console.log('Application Name' + config.get('name'));
+console.log('Mail Server Name' + config.get('mail.host'));
+console.log('Mail Password:' + config.get('mail.password'));
 
 // This is how we get the environment used 
-console.log(`NODE_ENV:${process.env.NODE_ENV}`);
-console.log(`app: ${app.get('env')}`);
+// console.log(`NODE_ENV:${process.env.NODE_ENV}`);
+// console.log(`app: ${app.get('env')}`);
 
 //this middleware returns a function
 //read the request 
@@ -17,20 +25,33 @@ console.log(`app: ${app.get('env')}`);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // key=value&key=value
 app.use(express.static('public'))
-app.use(express.static('public2'))
 app.use(helmet());
+app.use(logger);
+
+
+//With console.log
+console.log(` from clg = NODE_ENV: ${process.env.NODE_ENV}`);
+app.get(`app: ${app.get('env')}`);
+
+//important !!! this is how to change the environments in powershell 
+//$env:NODE_ENV="production"
+
 
 if (app.get('env') === 'development') {
     app.use(morgan('tiny'))
-    console.log('Morgan enabled');
+    console.log('Morgan enabled....');
 }
 
+// // With debugger
+// if (app.get('env') === 'development') {
+//     app.use(morgan('tiny'));
+//     startupDebugger('Morgan enabled...');
+// }
 
-app.use(logger);
-app.use(morgan('tiny'));
-
-const { result } = require("underscore");
-
+//With console.log
+dbDebugger('Connected to database...');
+//set debug in terminal
+// set DEBUG=app:startup; 
 
 //middleware called in sequence
 //each middleware to separate function
