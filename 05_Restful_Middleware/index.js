@@ -1,4 +1,5 @@
 const Joi = require('joi');
+// namespace to be used os startupDebugger
 const startupDebugger = require('debug')('app:startup');
 const dbDebugger = require('debug')('app:db');
 const morgan = require('morgan');
@@ -10,10 +11,15 @@ const logger = require('./logger')
 const express = require('express');
 const app = express();
 
-//configuration 
-console.log('Application Name' + config.get('name'));
-console.log('Mail Server Name' + config.get('mail.host'));
-console.log('Mail Password:' + config.get('mail.password'));
+
+
+
+//Configuration 
+// console.log('Application Name' + config.get('name'));
+// console.log('Mail Server Name' + config.get('mail.host'));
+
+
+// console.log('Mail Password:' + config.get('mail.password'));
 
 // This is how we get the environment used 
 // console.log(`NODE_ENV:${process.env.NODE_ENV}`);
@@ -36,21 +42,33 @@ app.get(`app: ${app.get('env')}`);
 //important !!! this is how to change the environments in powershell 
 //$env:NODE_ENV="production"
 
-
-if (app.get('env') === 'development') {
-    app.use(morgan('tiny'))
-    console.log('Morgan enabled....');
-}
-
-// // With debugger
+//using console.log 
 // if (app.get('env') === 'development') {
-//     app.use(morgan('tiny'));
-//     startupDebugger('Morgan enabled...');
+//     app.use(morgan('tiny'))
+//     console.log('Morgan enabled....');
 // }
 
-//With console.log
+
+// db. work ... -with debugger
 dbDebugger('Connected to database...');
+
+
+// With debugger
+// 08 debugging
+// set in package.json start to: 
+// "start": "set DEBUG=app:startup & node 05_Restful_Middleware/index.js",
+// run npm start 
+if (app.get('env') === 'development') {
+    startupDebugger('Morgan enabled...');
+    app.use(morgan('tiny'));
+    console.log(`from clg2= NODE_ENV: ${process.env.NODE_ENV}`);
+}
+
+
+
 //set debug in terminal
+//we will only see debugging messages
+//which are part of this namespace 
 // set DEBUG=app:startup; 
 
 //middleware called in sequence
