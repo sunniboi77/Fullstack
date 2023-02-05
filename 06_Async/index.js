@@ -1,16 +1,22 @@
 console.log('before');
-const user = getUser(1);
-console.log(user);
+getUser(1, function (user) {
+    console.log('User', user);
+});
 console.log("after");
 
-function getUser(id) {
+function getUser(id, callback) {
     setTimeout(() => {
         console.log('reading a user from db...');
-        return { id: id, gitHubUser: 'mosh' }
+        // this user object is not available at runtime
+        callback({ id: id, gitHubUser: 'mosh' })
     }, 1000);
-    return 1;
+}
+
+function getRepositories(username) {
+    return ['repo1', 'repo2', 'repo3']
 }
 
 //callbacks
 //promises
 //async/await
+
