@@ -1,4 +1,5 @@
-// 11 Queries with regexp
+
+const c = require("config");
 const { number } = require("joi");
 const mongoose = require('mongoose');
 
@@ -37,7 +38,45 @@ async function getMachines() {
     const machines3 = await Machines
         .find({ manufacturer: /.*Prin.*/i })
         .count()
-    console.log(machines3);
+
+    console.log('nr of machines found:', machines3);
 }
 
 getMachines();
+
+
+
+async function updateMachines(_id) {
+
+    // approach 1: Query first
+    // findById()
+    // modify
+    // save()
+
+    //approach 2: Update first
+    // Update directly
+    // Optional: get the updated document
+
+    // approach 1
+    const machine = await Machines.findById(_id);
+    if (!machine) return;
+    //in case we dont want to change something, we can build in logic
+    if (machine.isStandard) return;
+
+    machine.isStandard = true;
+    machine.printSize = 100;
+    machine.tags = ['small'];
+
+    const result = await machine.save()
+    console.log(result);
+
+
+    //  Approach2
+    // machines.set({
+    //     isStandard: false,
+    //     manufacturer: 'Kent'
+    // })
+    // machine.save();
+}
+
+updateMachines('63e0fe030b6e651b83cf7e2c');

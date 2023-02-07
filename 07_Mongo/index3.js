@@ -36,7 +36,7 @@ async function getMachines() {
     // query 3
     const machines3 = await Machines
 
-        //start with Ke
+        //start with "Ta"
         // .find({ manufacturer: /^Ta/ })
         // // Ends with Print, i means it is case-INsensitive   
         // .find({ manufacturer: /Print$/i })

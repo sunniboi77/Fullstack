@@ -5,6 +5,9 @@ const mongoose = require('mongoose');
 
 const startupDebugger = require('debug')('app:startup');
 const dbDebugger = require('debug')('app:db');
+// run debugger
+// $env:DEBUG='app:db'; node xyz.js
+// $env:DEBUG='app:db';node index2.js
 
 dbDebugger('Connected to database...');
 dbDebugger('Debugger workingmongmo..');
@@ -24,17 +27,17 @@ const machineSchema = new mongoose.Schema({
 
 //Classes, objects
 //Course is a Class
-const Course = mongoose.model('machines', machineSchema)
+const Machine = mongoose.model('machines', machineSchema)
 
-async function createCourse() {
-    const course = new Course({
-        name: 'Kent1',
+async function createMachine() {
+    const machine = new Machine({
+        name: 'Kent5',
         manufacturer: 'Kent',
         tags: ['electro'],
         isStandard: true
     });
 
-    const result = await course.save();
+    const result = await machine.save();
     console.log(result);
 }
-createCourse();
+createMachine();

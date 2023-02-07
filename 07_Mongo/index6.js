@@ -1,5 +1,4 @@
-// 11 Queries with regexp
-// pagination to be checked
+const c = require("config");
 const { number } = require("joi");
 const mongoose = require('mongoose');
 
@@ -32,19 +31,36 @@ const machineSchema = new mongoose.Schema({
 const Machines = mongoose.model('machines', machineSchema)
 
 async function getMachines() {
-    const pageNumber = 2;
-    const pageSize = 10;
     dbDebugger('query runs');
 
-    // with this we can get our documents on a given page 
-    // check this out later 
-    const machines5 = await Machines
+    // query 3
+    const machines3 = await Machines
         .find({ manufacturer: /.*Prin.*/i })
-        .skip((pageNumber - 1) * pageSize)
-        .limit((pageSize))
-    console.log(machines5);
+        .count()
+
+    console.log('nr of machines found:', machines3);
 }
 
 getMachines();
 
 
+//update 2
+async function updateMachines(id) {
+    const result = await Machines.updateOne(
+        { _id: id }, {
+        $set: {
+            manufacturer: "Test 2"
+        }
+    });
+    const machine = await Machines.findByIdAndUpdate(id, {
+        $set: {
+            isStandard: true
+        }
+    }, { new: true });
+    // check if course exists
+    // if (!machine) return;
+    //in case we dont want to change something, we can build in logic
+    console.log(result, machine);
+}
+
+updateMachines('63e1002cd7309fa6b1175106');

@@ -5,9 +5,7 @@ const mongoose = require('mongoose');
 
 const startupDebugger = require('debug')('app:startup');
 const dbDebugger = require('debug')('app:db');
-// run debugger
-// $env:DEBUG='app:db'; node xyz.js
-// $env:DEBUG='app:db';node index2.js
+
 
 dbDebugger('Connected to database...');
 dbDebugger('Debugger workingmongmo..');
