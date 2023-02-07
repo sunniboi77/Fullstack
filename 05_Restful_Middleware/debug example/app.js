@@ -2,6 +2,8 @@ var debug = require('debug')('http')
   , http = require('http')
   , name = 'My App';
 
+
+// set DEBUG=*,-not_this
 // fake app
 
 debug('booting %o', name);

@@ -62,6 +62,8 @@ app.get(`app: ${app.get('env')}`);
 // }
 
 
+// set DEBUG=*,-not_this
+
 // db. work ... -with debugger
 dbDebugger('Connected to database...');
 dbDebugger('Connected to downloading...');
@@ -78,8 +80,6 @@ if (app.get('env') === 'development') {
     console.log(`from clg2= NODE_ENV: ${process.env.NODE_ENV}`);
 }
 
-
-
 //middleware called in sequence
 //each middleware to separate function
 app.use(function (req, res, next) {
@@ -91,12 +91,6 @@ app.use(function (req, res, next) {
     console.log('Authenticating...');
     next();
 })
-
-
-
-
-
-
 
 //PORT
 const port = process.env.PORT || 3000;
