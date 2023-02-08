@@ -36,7 +36,7 @@ async function getMachines() {
 
     // query 3
     const machines3 = await Machines
-        .find({ manufacturer: /.*Prin.*/i })
+        // .find({ manufacturer: /.*Prin.*/i })
         .count()
 
     console.log('nr of machines found:', machines3);
@@ -47,6 +47,7 @@ getMachines();
 
 
 async function updateMachines(_id) {
+    
 
     // approach 1: Query first
     // findById()

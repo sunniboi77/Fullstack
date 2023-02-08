@@ -1,0 +1,152 @@
+[
+    {
+        "id": 1,
+        "NAME": "TPE-251",
+        "SYSTEM": "CLOSED",
+        "COLOR": 4,
+        "DRIVE": "Pneumatic",
+        "CYCLES / hour": "1400",
+        "Force": 1150,
+        "Hub (mm)": 160
+    },
+    {
+        "id": 2,
+        "NAME": "HM-101",
+        "SYSTEM": "CLOSED",
+        "COLOR": 1,
+        "DRIVE": "manual",
+        "CYCLES / hour": "-",
+        "Force": "tbd",
+        "Hub (mm)": "tbd"
+    },
+    {
+        "id": 3,
+        "NAME": "TPX-201",
+        "SYSTEM": "CLOSED",
+        "COLOR": 4,
+        "DRIVE": "Servo except ink",
+        "CYCLES / hour": "1800",
+        "Force": 2100,
+        "Hub (mm)": 100
+    },
+    {
+        "id": 4,
+        "NAME": "TPX-551",
+        "SYSTEM": "CLOSED",
+        "COLOR": 6,
+        "DRIVE": "electro-mechanik",
+        "CYCLES / hour": "1500",
+        "Force": 6000,
+        "Hub (mm)": 200
+    },
+    {
+        "id": 5,
+        "NAME": "TPX-552",
+        "SYSTEM": "CLOSED",
+        "COLOR": 2,
+        "DRIVE": "electro-mechanik",
+        "CYCLES / hour": "1500",
+        "Force": 6000,
+        "Hub (mm)": "tbd"
+    },
+    {
+        "id": 6,
+        "NAME": "TPX-555",
+        "SYSTEM": "CLOSED",
+        "COLOR": 6,
+        "DRIVE": "electro-mechanik",
+        "CYCLES / hour": "1200",
+        "Force": 6000,
+        "Hub (mm)": "tbd"
+    },
+    {
+        "id": 7,
+        "NAME": "TPA- 61",
+        "SYSTEM": "CLOSED",
+        "COLOR": 1,
+        "DRIVE": "Pneumatic",
+        "CYCLES / hour": "1700 - 3000",
+        "Force": 260,
+        "Hub(mm)": 100
+    },
+    {
+        "id": 8,
+        "NAME": "TPE-151",
+        "SYSTEM": "CLOSED",
+        "COLOR": 2,
+        "DRIVE": "Pneumatic",
+        "CYCLES / hour": "1800",
+        "Force": 680,
+        "Hub (mm)": 100
+    },
+    {
+        "id": 9,
+        "NAME": "TPM-101",
+        "SYSTEM": "CLOSED",
+        "COLOR": 1,
+        "DRIVE": "electro-mechanik",
+        "CYCLES / hour": "1500 / 4000",
+        "Force": 750,
+        "Hub (mm)": 210
+    },
+    {
+        "id": 10,
+        "NAME": "TPM-161",
+        "SYSTEM": "CLOSED",
+        "COLOR": 1,
+        "DRIVE": "electro-mechanik",
+        "CYCLES / hour": "2800",
+        "Force": 4000,
+        "Hub (mm)": 160
+    },
+    {
+        "id": 11,
+        "NAME": "TPX-102",
+        "SYSTEM": "CLOSED",
+        "COLOR": 1,
+        "DRIVE": "Pneumatic",
+        "CYCLES / hour": "1400",
+        "Force": 250,
+        "Hub (mm)": "tbd"
+    },
+    {
+        "id": 12,
+        "NAME": "TPX-252",
+        "SYSTEM": "CLOSED",
+        "COLOR": 1,
+        "DRIVE": "Pneumatic",
+        "CYCLES / hour": "1400",
+        "Force": 700,
+        "Hub (mm)": 200
+    },
+    {
+        "id": 13,
+        "NAME": "TPX-302",
+        "SYSTEM": "CLOSED",
+        "COLOR": 2,
+        "DRIVE": "elektro-mechanik",
+        "CYCLES / hour": 1400,
+        "Force": 4000,
+        "Hub (mm)": 160
+    },
+    {
+        "id": 14,
+        "NAME": "TPX-220",
+        "SYSTEM": "CLOSED",
+        "COLOR": 4,
+        "DRIVE": "electro-mechanik",
+        "CYCLES / hour": 2400,
+        "Force": 1300,
+        "Hub (mm)": 70
+    },
+    {
+        "id": 15,
+        "NAME": "Delta III",
+        "SYSTEM": "CLOSED",
+        "COLOR": 5,
+        "DRIVE": "electro-mechanik",
+        "CYCLES / hour": 1850,
+        "Force": 3000,
+        "Hub(mm)": 150
+    }
+]
