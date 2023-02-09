@@ -1,4 +1,5 @@
-//Create mongodb schema and save objects 
+//  Video 4
+//  Async validator
 
 const { number } = require("joi");
 const mongoose = require('mongoose');
@@ -15,6 +16,20 @@ dbDebugger('Debugger workingmongmo..');
 mongoose.connect('mongodb://127.0.0.1:27017/machines')
     .then(() => console.log('connected to MongoDB'))
     .catch(err => console.log('could not connect to MongoDB', err));
+
+
+//to simulate setTimeOut function 
+// await delay(3);
+const delay = (n) => {
+    return new Promise(function (resolve) {
+        setTimeout(resolve, n * 1000);
+    });
+};
+
+
+//console.log function 
+const cl = (...args) => console.log(...args);
+cl("hello")
 
 const machineSchema = new mongoose.Schema({
     //validation is only meaningful in mongoose
@@ -36,11 +51,18 @@ const machineSchema = new mongoose.Schema({
         type: Array,
         //custom validator with a function
         //min one tag and not null, not an empty array
+        // Async validator 
         validate: {
             validator: function (v) {
-                return v && v.length > 0;
+                return new Promise((res, rej) => {
+                    setTimeout(() => {
+                        // do some async work
+                        const result = v && v.length > 0;
+                        res(result)
+                    }, 200);
+                });
             },
-            message: "machine has to have at least one tag."
+            message: 'a course should have at least one tag'
         }
     },
     date: { type: Date, default: Date.now },
@@ -59,7 +81,6 @@ const machineSchema = new mongoose.Schema({
     }
 });
 
-
 //Classes, objects
 //Course is a Class
 const Machine = mongoose.model('machines', machineSchema)
@@ -67,9 +88,9 @@ const Machine = mongoose.model('machines', machineSchema)
 async function createMachine() {
     const machine = new Machine({
         name: 'Kent6',
-        category: 'small',
+        category: '-',
         manufacturer: 'Kent',
-        tags: ["fast"],
+        tags: [],
         isStandard: true,
         price: 150
     });
@@ -90,7 +111,9 @@ async function createMachine() {
 
 
     catch (ex) {
-        console.log(ex.message);
+        for (field in ex.errors)
+            console.log(ex.errors[field].message);
     }
 }
+
 createMachine();    
