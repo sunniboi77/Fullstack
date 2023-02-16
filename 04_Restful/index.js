@@ -1,3 +1,5 @@
+
+//changing genres object to mongodb local
 const express = require('express');
 const app = express();
 const Joi = require('joi');
@@ -28,7 +30,7 @@ const courses = [
 ];
 
 app.get('/', (req, res) => {
-    res.send('HELLO WORLD!!1111');
+    res.send('HELLO WORLD!');
 })
 
 app.get('/api/courses', (req, res) => {
@@ -114,4 +116,3 @@ function validateCourse(course) {
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`listening on port ${port}...`));
 
- 

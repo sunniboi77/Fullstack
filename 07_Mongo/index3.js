@@ -1,6 +1,8 @@
-// 11 Queries with regexp
-const { number } = require("joi");
+// 7 
+const Joi = require("joi");
 const mongoose = require('mongoose');
+const express = require('express');
+const app = express();
 
 const startupDebugger = require('debug')('app:startup');
 const dbDebugger = require('debug')('app:db');
@@ -9,7 +11,7 @@ const dbDebugger = require('debug')('app:db');
 // $env:DEBUG='app:db';node index_2.js
 
 dbDebugger('Connected to database...');
-dbDebugger('Debugger workingmongmo..');
+
 //hardcoded - this returns a promise
 mongoose.connect('mongodb://127.0.0.1:27017/machines')
     .then(() => console.log('connected to MongoDB'))
@@ -26,26 +28,8 @@ const machineSchema = new mongoose.Schema({
 });
 
 
-//Classes, objects
-//Maschines is a Class
-const Machines = mongoose.model('machines', machineSchema)
 
-async function getMachines() {
-    dbDebugger('query runs');
+//PORT
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`listening on port ${port}...`));
 
-    // query 3
-    const machines3 = await Machines
-
-        //start with "Ta"
-        // .find({ manufacturer: /^Ta/ })
-        // // Ends with Print, i means it is case-INsensitive   
-        // .find({ manufacturer: /Print$/i })
-
-        //cointains text 
-        //.* means zero or more characters before and after this text, 
-        //case insensitive : put i at the end 
-        .find({ manufacturer: /.*Ken.*/i })
-    console.log(machines3);
-}
-
-getMachines();

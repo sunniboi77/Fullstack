@@ -1,5 +1,4 @@
 //Create mongodb schema and save objects 
-
 const { number } = require("joi");
 const mongoose = require('mongoose');
 

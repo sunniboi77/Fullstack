@@ -1,22 +1,21 @@
-const Joi = require('joi');
-// import log function from logger.js
-const logger = require('./middleware/logger')
+//this is the courses API
 const express = require('express');
 const app = express();
-
+const Joi = require('joi');
+const { result } = require("underscore");
+const mongoose = require('mongoose');
 
 //this middleware returns a function
 //read the request 
 //sets req.body
 app.use(express.json());
 
-app.use(logger);
+mongoose.connect('mongodb://127.0.0.1:27017/machines')
+    .then(() => console.log('connected to MongoDB'))
+    .catch(err => console.log('could not connect to MongoDB', err));
 
-const { result } = require("underscore");
-
-
-// middleware called in sequence
-// each middleware to separate function
+//middleware called in sequence
+//each middleware to separate function
 app.use(function (req, res, next) {
     console.log('logging...');
     next();
@@ -27,7 +26,6 @@ app.use(function (req, res, next) {
     next();
 })
 
-
 const courses = [
     { id: 1, name: 'course 1 ' },
     { id: 2, name: 'course 2 ' },
@@ -35,7 +33,7 @@ const courses = [
 ];
 
 app.get('/', (req, res) => {
-    res.send('HELLO WORLD!!1111');
+    res.send('HELLO WORLD!');
 })
 
 app.get('/api/courses', (req, res) => {

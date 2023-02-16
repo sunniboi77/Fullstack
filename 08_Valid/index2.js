@@ -44,6 +44,8 @@ const tecaMachineSchema = new Schema({
     { collection: 'TecaMachines' }
 );   // collection name
 
+
+//Schema validation for machines 
 const machineSchema = new mongoose.Schema({
     //validation is only meaningful in mongoose
     //mongodb doesnot have this validation 
@@ -134,6 +136,9 @@ async function createMachine() {
     }
 }
 
+
+
+
 // Uses collection TecaMachine
 async function getMachines() {
     dbDebugger('query runs');
@@ -167,4 +172,4 @@ async function getMachinesCount() {
 
 getMachinesCount()
 // createMachine();
-getMachines()
+getMachines() 

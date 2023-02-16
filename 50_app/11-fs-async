@@ -1,0 +1,37 @@
+const { readFile, writeFileSync, writeFile } = require('fs');
+const path = require("path");
+
+console.log('start');
+readFile(path.resolve(__dirname, './content/first.txt'), 'utf-8', (err, result) => {
+    if (err) {
+        console.log(err);
+        return
+    }
+    console.log(result);
+    // without utf text file looks like this 
+    // <Buffer 68 65 6c 6c 6f 20 74 68 69 73 20 69 73 20 66 69 72 73 74 20 74 78 74 20>
+
+    const first = result;
+    readFile(path.resolve(__dirname, './content/second.txt'), 'utf-8', (err, result) => {
+        if (err) {
+            console.log(err);
+            return
+        }
+        console.log('this is from 2nd', result);
+        const second = result;
+        writeFile(
+            path.resolve(__dirname, './content/result-async.txt'),
+            `here is the result ${first}, ${second}`,
+            { flag: 'a' },
+            (err, result) => {
+                if (err) {
+                    console.log('error is here if any>>', err);
+                    return;
+                }
+                console.log("doen with this text ", result);
+            }
+        )
+    })
+})
+
+console.log('starting new task');

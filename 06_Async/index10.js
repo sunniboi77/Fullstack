@@ -3,6 +3,7 @@
 
 
 
+
 const p1 = new Promise((resolve, reject) => {
     setTimeout(() => {
         console.log('Async operation 1...');

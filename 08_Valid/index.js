@@ -1,47 +1,20 @@
-
-//playfile - this was a test runned by me, 
-//shall be deleted later
-
+//this is for the genres api 
 const mongoose = require('mongoose');
+const Joi = require('joi');
+const { result } = require("underscore");
+const genres = require('./routes/genres.js');
+const express = require('express');
+const app = express();
 
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
+mongoose.connect('mongodb://127.0.0.1:27017/machines')
+    .then(() => console.log('connected to MongoDB'))
+    .catch(err => console.log('could not connect to MongoDB', err));
 
+app.use(express.json());
+app.use('/api/genres', genres);
 
-MongoClient.connect(url, function (err, db) {
-    if (err) throw err;
-    var dbo = db.db("machines");
-    var myobj = { name: "Company Inc", address: "Highway 37" };
-    dbo.collection("customers").insertOne(myobj, function (err, res) {
-        if (err) throw err;
-        console.log("1 document inserted");
-        db.close();
-    });
-});
-
-const startupDebugger = require('debug')('app:startup');
-const dbDebugger = require('debug')('app:db');
-
-// const db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function () {
-//     console.log("Connected to the database!");
-// });
-
-
-const machineSchema = new mongoose.Schema({
-    id: Number,
-    NAME: String,
-    SYSTEM: String,
-    COLOR: Number,
-    DRIVE: String,
-    Force: String
-});
-
-
-const TecaMaschines1 = mongoose.model('machines', machineSchema);
-
-TecaMaschines1.find({}, function (err, collections) {
-    if (err) return console.error(err);
-    console.log(collections);
-});
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`listening on port ${port}...`));
+// app.get('/', (req, res) => {
+//     res.send('HELLO WORLD!');
+// })
