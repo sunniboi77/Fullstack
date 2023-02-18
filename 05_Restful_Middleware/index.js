@@ -1,14 +1,63 @@
+const helmet = require('helmet')
+const morgan = require('morgan')
+const path = require('path');
+const config = require('config');
+const startupDebugger = require('debug')('app:startup');
+const dbDebugger = require('debug')('app:db');
+process.env.NODE_ENV = 'development';
+
+
+// const public = readFile(path.resolve(__dirname, './content/first.txt'));
+
+// run debugger
+// $env: DEBUG = 'app:db'; node xyz.js
+// $env:DEBUG='app:db';node index.js
+
+// $env:DEBUG='app:startup';node index.js
+
+// cd "d:\Github\11_FirstApp\05_Restful_Middleware\"
+// run code from Powershell
+//configuration 
+console.log('application name:' + config.get('name'));
+console.log('mail server:' + config.get('mail.host'));
+console.log('mail password:' + config.get('mail.password'));
+
+
 const Joi = require('joi');
 // import log function from logger.js
 const logger = require('./middleware/logger')
 const express = require('express');
 const app = express();
 
+app.set('view engine', 'pug');
+app.set('views', './views');
+
+
+// Environments
+console.log(`NODE ENV:${process.env.NODE_ENV}`);
+console.log(`app:${app.get('env')}`);
+
+
+if (app.get('env') === 'development') {
+    app.use(morgan('tiny'));
+    startupDebugger("Using morgan...")
+}
+app.use(express());
+app.use(helmet());
+app.use(morgan('tiny'));
 
 //this middleware returns a function
 //read the request 
 //sets req.body
 app.use(express.json());
+
+//key=value
+app.use(express.urlencoded({ extended: true }));
+
+// app.use(express.static(__dirname + '/public'));
+
+app.use(express.static('public'))
+app.use('/static', express.static(__dirname + '/public'));
 
 app.use(logger);
 
@@ -17,10 +66,11 @@ const { result } = require("underscore");
 
 // middleware called in sequence
 // each middleware to separate function
-app.use(function (req, res, next) {
-    console.log('logging...');
-    next();
-})
+// this is not used anymore since it is exported from middleware
+// app.use(function (req, res, next) {
+//     console.log('logging...');
+//     next();
+// })
 
 app.use(function (req, res, next) {
     console.log('Authenticating...');
@@ -35,7 +85,8 @@ const courses = [
 ];
 
 app.get('/', (req, res) => {
-    res.send('HELLO WORLD!!1111');
+    startupDebugger("getviewcalled");
+    res.render('index', { title: "My Express App", message: "Hello world" });
 })
 
 app.get('/api/courses', (req, res) => {

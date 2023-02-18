@@ -1,6 +1,8 @@
 {
-    "name": "My express App - Development!!",
+    "name": "My express App - Development",
     "mail": {
-        "host": "dev-mail-server"
+        "host": "dev-mail-server",
+        "password": "app_password"
+
     }
 }
