@@ -1,8 +1,8 @@
 const express = require('express');
-const router = express.Router();
+const startpage = express.Router();
 
-router.get('/', (req, res) => {
-    res.render('index', { title: 'Myexpress app', message: 'hello' });
+startpage.get('/', (req, res) => {
+    // startupDebugger("getviewcalled");
+    res.render('index', { title: "My Express App", message: "Hello world" });
 })
-
-module.exports = router;
+module.exports = startpage;

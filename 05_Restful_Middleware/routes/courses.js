@@ -7,7 +7,6 @@ const courses = [
     { id: 3, name: 'course 3 ' },
 ];
 
-
 router.get('/', (req, res) => {
     res.send(courses);
 })
