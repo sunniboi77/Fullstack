@@ -4,10 +4,17 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
+
+
 const genres = [
     { id: 1, name: 'Thriller', description: 'Movies that increase the heart rate' },
     { id: 2, name: 'Rom-Com', description: 'Movies that will make your eyes well up with tears' }
 ];
+
+app.get('/', (req, res) => {
+    res.send("hello world!!!!!!");
+});
+
 
 app.get('/api/genres', (req, res) => {
     res.send(genres);
@@ -25,6 +32,24 @@ app.delete('/api/genres/:id', (req, res) => {
     if (!genre) return res.status(404).send(`A genre with id ${req.params.id} was not found!`);
     const index = genres.indexOf(genre);
     genres.splice(index, 1);
+    res.send(genre);
+});
+
+
+app.put('/api/genres/:id', (req, res) => {
+    const genre = genres.find(c => c.id === parseInt(req.params.id));
+    if (!genre) return res.status(404).send(`A genre with id ${req.params.id} was not found!`);
+
+    const { error } = validateGenre(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    if (genres.find(g => g.name.toLowerCase() === req.body.name.toLowerCase())) {
+        return res.status(400).send('Another genre with this name already exists');
+    }
+
+    genre.name = req.body.name || genre.name;
+    genre.description = req.body.description || genre.description;
+    console.log(`Genre ${req.params.id} updated successfully`);
     res.send(genre);
 });
 
