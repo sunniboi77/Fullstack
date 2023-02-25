@@ -4,7 +4,11 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
+const logger = require('./middleware/logger');
+const authentication = require('./middleware/authentication');
 
+app.use(logger);
+app.use(authentication);
 
 const genres = [
     { id: 1, name: 'Thriller', description: 'Movies that increase the heart rate' },
