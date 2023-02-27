@@ -42,7 +42,7 @@ async function getMachines() {
 
     dbDebugger('query runs');
 
-    const machines2 = await Machines
+    const machines2 = await machines
         // .find({ manufacturer: 'Teca-Print' })
         // .find({ price: { 10 } }) - exact value is 10
         // .find({ price: { $gte: 10, $lte: 20 } })
