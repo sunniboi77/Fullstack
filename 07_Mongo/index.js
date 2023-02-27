@@ -56,6 +56,17 @@ async function getCourses() {
     console.log(courses);
 }
 
+async function getCourses2() {
+    const courses = await Course
+        .find()
+        //limit page Size
+        // .skip((pageNumber - 1) * pageSize)
+        // .limit(pageSize)
+        .sort({ name: 1 })
+        .select({ name: 1, tags: 1, author: 1 })
+    console.log(courses);
+}
+
 async function countCourses() {
     // const courses = await Course.find({ author: 'Mosh', isPublished: true })
     const courses = await Course
@@ -64,9 +75,76 @@ async function countCourses() {
     console.log("counted -->>", courses);
 }
 
+async function updateCourseExamepleMethods(id) {
+    //approach query first
+    //findById()
+    //Modify its properties
+    // save()
 
-createCourse();
+    // approach update first
+    // update directly
+    // optionally get the document 
+}
+
+//Query First Approach
+async function updateCourse(id) {
+    const course = await Course.findById(id);
+    if (!course) return;
+
+    course.isPublished = true;
+    course.author = 'Another Author'
+
+    // Method 2 with set method
+    //  course.set({isPublished:true,author:'another author'})
+
+    const result = await course.save();
+    console.log(result);
+
+}
+
+//Update First Approach
+async function updateCourse2(id) {
+    const result = await Course.updateOne({ _id: id }, {
+        $set: {
+            author: 'Attila changed',
+            isPublished: false
+        }
+    });
+    console.log(result);
+}
+
+
+//Update First Approach #2 with findById...
+async function updateCourse3(id) {
+    const course = await Course.findByIdAndUpdate(id, {
+        $set: {
+            author: 'old',
+            isPublished: true
+        }
+    }, { new: true }); //with this we get the updated result, not the one before modification
+    console.log(course);
+}
+
+async function removeCourse(id) {
+    // Course.deleteOne({isPublished:false}) //delete 1st and stops 
+    //Course.findByIdandRemove(id) // this is  
+    
+    const result = await Course.deleteOne({ _id: id })
+
+    console.log(result);
+}
+
+
+removeCourse('63fb29a9d560d6b86f227f29');
+
+
+// updateCourse('63fa2e6ece46ddfc1c3aaa72');
+updateCourse3('63fb29a9d560d6b86f227f29');
+
+
+
+// createCourse();
 
 countCourses();
 
-getCourses()
+// getCourses2()
