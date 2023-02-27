@@ -18,11 +18,38 @@ mongoose.connect('mongodb://127.0.0.1:27017/playground')
     .catch(err => console.log('could not connect'))
 
 const courseSchema = new mongoose.Schema({
-    name: String,
+    name: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 255,
+        // match : /pattern/
+    },
+    category: {
+        type: String,
+        required: true,
+        enum: ['web', 'mobile', 'network']
+    },
     author: String,
-    tags: [String],
+    tags: {
+        type: Array,
+        validate: {
+            validator: function (v) {
+                return v && v.length > 0;
+            },
+            //optional 
+            message: 'course should have at least one tag'
+        }
+    },
     date: { type: Date, default: Date.now },
-    isPublished: Boolean
+    isPublished: Boolean,
+    //function validator below
+    price: {
+        type: Number,
+        required: function () { return this.isPublished },
+        min: 10,
+        max: 120
+    }
 });
 
 //schema -> model -> class -> object -> document
@@ -32,16 +59,24 @@ const Course = mongoose.model('Course', courseSchema);
 async function createCourse() {
     //Create object
     const course = new Course({
-        name: 'Node.js Course',
-        author: 'Mosh',
-        tags: ['node', 'backend'],
-        isPublished: true
+        name: 'JS/CSS Course',
+        category: 'web',
+        author: 'ATTILA',
+        tags: ['test'],
+        isPublished: true,
+        price: 15
     });
-
-    const result = await course.save();
-    console.log(result);
+    try {
+        await course.validate();
+        const result = await course.save();
+        // console.log(result);
+    }
+    catch (ex) {
+        console.log("message ==>", ex.message);
+    }
 }
 
+//filter courses 
 async function getCourses() {
     const pageNumber = 2;
     const pageSize = 10;
@@ -56,6 +91,7 @@ async function getCourses() {
     console.log(courses);
 }
 
+//get all courses
 async function getCourses2() {
     const courses = await Course
         .find()
@@ -67,6 +103,7 @@ async function getCourses2() {
     console.log(courses);
 }
 
+//count courses
 async function countCourses() {
     // const courses = await Course.find({ author: 'Mosh', isPublished: true })
     const courses = await Course
@@ -94,12 +131,11 @@ async function updateCourse(id) {
     course.isPublished = true;
     course.author = 'Another Author'
 
-    // Method 2 with set method
+    // Method #2 with set method
     //  course.set({isPublished:true,author:'another author'})
 
     const result = await course.save();
     console.log(result);
-
 }
 
 //Update First Approach
@@ -128,23 +164,16 @@ async function updateCourse3(id) {
 async function removeCourse(id) {
     // Course.deleteOne({isPublished:false}) //delete 1st and stops 
     //Course.findByIdandRemove(id) // this is  
-    
+
     const result = await Course.deleteOne({ _id: id })
 
     console.log(result);
 }
 
 
-removeCourse('63fb29a9d560d6b86f227f29');
-
-
+// removeCourse('63fb29a9d560d6b86f227f29');
 // updateCourse('63fa2e6ece46ddfc1c3aaa72');
-updateCourse3('63fb29a9d560d6b86f227f29');
-
-
-
-// createCourse();
-
-countCourses();
-
-// getCourses2()
+// updateCourse3('63fb29a9d560d6b86f227f29');
+createCourse();
+// countCourses();
+getCourses2();
