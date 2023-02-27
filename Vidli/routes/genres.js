@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
+const mongoose = require('mongoose')
 
 const genres = [
     { id: 1, name: 'Thriller', description: 'Movies that increase the heart rate' },
@@ -67,10 +68,7 @@ function validateGenre(genre) {
     const validation = schema.validate(genre);
     return validation;
 }
-const express = require('express');
-const router = express.Router();
-const Joi = require('joi');
-const mongoose = require('mongoose')
+
 
 function connectToDatabase() {
     mongoose
