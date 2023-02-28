@@ -28,16 +28,25 @@ const courseSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ['web', 'mobile', 'network']
+        enum: ['web', 'mobile', 'network'],
+        // lowercase: true,
+        uppercase: true,
+        trim: true // remove spaces 
     },
     author: String,
     tags: {
         type: Array,
         validate: {
-            validator: function (v) {
-                return v && v.length > 0;
+            validator: async function (v) {
+                const result = await new Promise(resolve => {
+                    setTimeout(() => {
+                        //Do some async work 
+                        const isValid = v && v.length > 0;
+                        resolve(isValid);
+                    }, 2000);
+                });
+                return result;
             },
-            //optional 
             message: 'course should have at least one tag'
         }
     },
@@ -48,7 +57,9 @@ const courseSchema = new mongoose.Schema({
         type: Number,
         required: function () { return this.isPublished },
         min: 10,
-        max: 120
+        max: 120,
+        get: v => Math.round(v), // read value of property already imported or existing in the database 
+        set: v => Math.round(v) // when we create the value  
     }
 });
 
@@ -62,7 +73,7 @@ async function createCourse() {
         name: 'JS/CSS Course',
         category: 'web',
         author: 'ATTILA',
-        tags: ['test'],
+        tags: ['cool'],
         isPublished: true,
         price: 15
     });
@@ -73,6 +84,9 @@ async function createCourse() {
     }
     catch (ex) {
         console.log("message ==>", ex.message);
+        //remove tags and set category to '-'
+        for (field in ex.errors)
+            console.log(ex.errors[field].message);
     }
 }
 
@@ -176,4 +190,4 @@ async function removeCourse(id) {
 // updateCourse3('63fb29a9d560d6b86f227f29');
 createCourse();
 // countCourses();
-getCourses2();
+// getCourses2();

@@ -3,10 +3,63 @@ const router = express.Router();
 const Joi = require('joi');
 const mongoose = require('mongoose')
 
-const genres = [
-    { id: 1, name: 'Thriller', description: 'Movies that increase the heart rate' },
-    { id: 2, name: 'Rom-Com', description: 'Movies that will make your eyes well up with tears' }
-];
+
+mongoose.connect('mongodb://127.0.0.1:27017/vidli')
+    .then(() => console.log('connected to MongoDB...'))
+    .catch(err => console.log('could not connect'))
+
+
+const movies = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        minlength: 2,
+        maxlength: 255,
+        // match : /pattern/
+    },
+    category: {
+        type: String,
+        required: true,
+        enum: ['web', 'mobile', 'network'],
+        // lowercase: true,
+        uppercase: true,
+        trim: true // remove spaces 
+    },
+    author: String,
+    tags: {
+        type: Array,
+        validate: {
+            validator: async function (v) {
+                const result = await new Promise(resolve => {
+                    setTimeout(() => {
+                        //Do some async work 
+                        const isValid = v && v.length > 0;
+                        resolve(isValid);
+                    }, 2000);
+                });
+                return result;
+            },
+            message: 'course should have at least one tag'
+        }
+    },
+    date: { type: Date, default: Date.now },
+    isPublished: Boolean,
+    //function validator below
+    price: {
+        type: Number,
+        required: function () { return this.isPublished },
+        min: 10,
+        max: 120,
+        get: v => Math.round(v), // read value of property already imported or existing in the database 
+        set: v => Math.round(v) // when we create the value  
+    }
+});
+
+
+// const genres = [
+//     { id: 1, name: 'Thriller', description: 'Movies that increase the heart rate' },
+//     { id: 2, name: 'Rom-Com', description: 'Movies that will make your eyes well up with tears' }
+// ];
 
 router.get('/', (req, res) => {
     res.send(genres);
