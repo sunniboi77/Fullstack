@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const app = express();
 const genres = require('./routes/genres')
+const customers = require('./routes/customers')
 
 
 app.use(express.json());
@@ -14,8 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logger);
 app.use(authentication);
 app.use('/api/genres', genres.router);
-// app.use('/api/genres', genres);
-
+app.use('/api/customers', customers);
 
 mongoose.connect('mongodb://127.0.0.1:27017/vidli')
     .then(() => console.log('connected to MongoDB...'))
